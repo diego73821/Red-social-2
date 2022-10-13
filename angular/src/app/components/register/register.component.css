@@ -1,0 +1,50 @@
+:root{
+    --color-dark: #15181f;
+    --color-dark-x: #2d343f;
+    --color-dark-xx: #f0f2f4;
+    --color-light: #000c0c;
+    --color-grey: #0962e7;
+}
+
+section{
+    font-size: 1,1rem;
+    font-weight: 300;
+    background-color: var(--color-grey);
+    color: var(--color-light);
+    letter-spacing: .05rem;
+}
+
+.bg-light{
+    background-color: var(--color-light)!important;
+}
+
+.bg-dark{
+    background-color: var(--color-dark)!important;
+}
+
+.p-6{
+    padding: 4rem 7rem;
+}
+
+.contact-box{
+    padding: 3rem;
+}
+
+
+
+.color{
+    background-color: var(--color-dark-xx);
+    border: 2px solid var(--color-dark-xx);
+    border-radius:  .2rem;
+    padding: 1rem;
+}
+
+.bg{
+    box-shadow: -1px 4px 28px 0px rgba(8, 8, 8, 0.75);
+}
+
+.bg-im{
+    background-image: url(https://as01.epimg.net/meristation/imagenes/2022/06/30/betech/1656604215_530841_1656604315_noticia_normal_recorte1.jpg);
+        background-size: cover;
+        background-position: center;
+}

@@ -1,38 +1,52 @@
-<section class="container-fluid">
-    <div class="col-lg-5">
-        <h1 class="h1-strong">{{title}}</h1>
-        <form action="" #registerForm="ngForm" (ngSubmit)= "onSubmit()" class="col-lg-12">
-            <p>
-                <label for="">Nombre</label>
-                <input type="text" name="name" #name="ngModel" [(ngModel)]="user.name" class="form-control" required>
-                <span *ngIf="!name.valid && name.touched">El nombre es obligatorio!</span>
-            </p>
-            <p>
-                <label for="">Apellidos</label>
-                <input type="text" name="surname" #surname="ngModel" [(ngModel)]="user.surname" class="form-control"
-                    required>
-                <span *ngIf="!surname.valid && surname.touched">Los apellidos son obligatorios!</span>
-            </p>
-            <p>
-                <label for="">Apodo</label>
-                <input type="text" name="nick" #nick="ngModel" [(ngModel)]="user.nick" class="form-control" required>
-                <span *ngIf="!nick.valid && nick.touched">El apodo es obligatorio!</span>
-            </p>
-            <p>
-                <label for="">Correo electrónico</label>
-                <input type="email" name="email" #email="ngModel" [(ngModel)]="user.email" class="form-control" required
-                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
-                <span *ngIf="!email.valid && email.touched">El correo no es correcto!</span>
-            </p>
-            <p>
-                <label for="">Contraseña</label>
-                <input type="text" name="password" #password="ngModel" [(ngModel)]="user.password" class="form-control"
-                    required>
-                <span *ngIf="!password.valid && password.touched">La contraseña es obligatoria!</span>
-            </p>
-
-            <input type="submit" value="{{title}}" class="btn btn-success" [disabled]=!registerForm.form.valid>
-
-        </form>
+<section class="">
+    <div class="d-flex justify-content-center align-items-center bg-im">
+        <div class="col-xl-7 col-lg-12 d-flex p-6 bg">
+            <div class="container align-self-center">
+                <h1 class="fw-bold my-3 text-light">{{title}}</h1>
+                <p class=" text-center text-light mt-2">Ingresa la siguiente informacion para registrarte</p>
+                        <form action="" #registerForm="ngForm" (ngSubmit)= "onSubmit()">
+                            <div class="form-row mb-3 d-flex">
+                                <div class="form-floating mx-1 col-md-6">
+                                    <input type="text" name="name" #name="ngModel" [(ngModel)]="user.name" class="form-control" placeholder="Nombre" required>
+                                    <label for="floatingNombre">Nombre</label>
+                                    <span *ngIf="!name.valid && name.touched">El nombre es obligatorio!</span>
+                                </div>
+                                <div class="form-floating col-md-6">
+                                    <input type="text" name="surname" #surname="ngModel" [(ngModel)]="user.surname" class="form-control" placeholder="Apellido" required>
+                                    <label for="floatingApellido">Apellido</label>
+                                    <span *ngIf="!surname.valid && surname.touched">Los apellidos son obligatorios!</span>
+                                </div>
+                            </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="nick" #nick="ngModel" [(ngModel)]="user.nick" class="form-control" placeholder="Apodo" required>
+                                    <label for="floatingApodo">Apodo</label>
+                                    <span *ngIf="!nick.valid && nick.touched">El apodo es obligatorio!</span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="email" name="email" #email="ngModel" [(ngModel)]="user.email" class="form-control" placeholder="Correo electronico" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                                    <label for="floatingInput">Correo electrónico</label>
+                                    <span *ngIf="!email.valid && email.touched">El correo no es correcto!</span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="password" #password="ngModel" [(ngModel)]="user.password" class="form-control" placeholder="Contraseña" required>
+                                    <label for="floatingPassword">Contraseña</label>
+                                    <span *ngIf="!password.valid && password.touched">La contraseña es obligatoria!</span>
+                                </div>
+                                <div class="form-floating">
+                                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                                    <label for="floatingPassword">Verificar contraseña</label>
+                                </div>
+                            <div class="form-group mt-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox">
+                                    <label class="form-check-label text-muted">Al seleccionar esta casilla aceptas nuestro
+                                    aviso de privacidad y los terminos y condiciones</label>
+                                </div>
+                            </div>
+                                <input type="submit" value="Registrate" class=" btn bg-success text-light mt-2 fw-bold" [disabled]=!registerForm.form.valid>
+                        </form>
+                        <small class="d-inline-block text-muted mt-4">Todos los derechos reservados | 2022 Templune</small>
+            </div>
+        </div>
     </div>
 </section>

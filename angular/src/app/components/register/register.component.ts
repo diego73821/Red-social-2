@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
     private _userService : UserService
 
   ) {
-    this.title = 'Registrate'
+    this.title = 'Crea tu cuenta gratis'
     this.user = new User('',
     '',
     '',
@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
     '',
     'ROLE_USER',
     '')
-   }
+  }
 
   ngOnInit(): void {
     console.log('Componente de register cargado')
