@@ -1,16 +1,91 @@
+<!--
 <div class="navigation col-12">
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
         <a href="#" class="navbar-brand">{{title}}</a>
       </div>
-      <ul class="nav navbar-nav">
-        <li><a href="#"> Inicio</a></li>
+      <ul class="nav navbar-nav" *ngIf="identity">
+        <li><a [routerLink]="['/home']" [routerLinkActive]="['active']"> Inicio</a></li>
         <li><a href="#">TimeLine</a></li>
         <li><a href="#">Gente</a></li>
+      </ul>
+
+      <ul class="nav navbar navbar-nav" *ngIf="!identity">
+        <li><a [routerLink]="['/login']" [routerLinkActive]="['active']">Login</a></li>
+        <li><a [routerLink]="['/registro']" [routerLinkActive]="['active']">Registro</a></li>
+      </ul>
+
+      <ul class="nav navbar navbar-right" *ngIf="identity">
+        <li class="avatar">
+          Cargar imagen de usuario
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toogle="dropdown">{{identity.name}}</a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="#">Mi perfil</a>
+            </li>
+            <li>
+              <a href="#">Mis datos</a>
+            </li>
+            <li>
+              <a href="#">Cerrar sesión</a>
+            </li>
+          </ul>
+        </li>
       </ul>
     </div>
   </nav>
 </div>
+-->
+
+<header class="p-3 mb-3 border-bottom">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+        <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+          <use xlink:href="#bootstrap"></use>
+        </svg>
+      </a>
+
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0" *ngIf="!identity">
+        <li><a href="#" class="nav-link px-2 link-dark" [routerLink]="['/login']"
+            [routerLinkActive]="['active']">Login</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark" [routerLink]="['/registro']"
+            [routerLinkActive]="['active']">Registro</a></li>
+      </ul>
+
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0" *ngIf="identity">
+        <li><a href="#" class="nav-link px-2 link-dark" [routerLink]="['/home']"
+            [routerLinkActive]="['active']">Inicio</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark">Timeline</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark" [routerLink]="['/gente']"
+            [routerLinkActive]="['active']">Gente</a></li>
+      </ul>
+
+      <!--       <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+        <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+      </form> -->
+
+      <div class="dropdown text-end" *ngIf="identity">
+<h6>{{identity.name}}</h6>
+        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          <img src="{{url + 'get-image-user/' + identity.image}}" alt="mdo" width="32" height="32"
+            class="rounded-circle" *ngIf="identity && identity.image">
+        </a>
+        <ul class="dropdown-menu text-small">
+          <li><a class="dropdown-item" href="#">Mi perfil</a></li>
+          <li><a class="dropdown-item" href="#" [routerLink]="['/mis-datos']">Mis datos</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" href="#" (click)="logout()">Cerrar sesión</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
 
 <router-outlet></router-outlet>

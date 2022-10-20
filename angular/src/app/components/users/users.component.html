@@ -1,0 +1,29 @@
+<div class="col-lg-8">
+    <h1>{{title}}</h1>
+
+    <div class="people">
+        <div *ngFor="let user of users" class="item-user">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="image_user pull-left">
+                        <a href="">
+                            <img src="{{url + 'get-image-user/' + user.image}}" alt="">
+                        </a>
+                    </div>
+                    <div class="user_name pull-left">
+                        <p>
+                            <a href="">
+                                {{user.name + '' + user.surname}} | {{user.nick}}
+                            </a>
+                        </p>
+                        <p class="nickname">
+                            {{user.nick}}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- SEGUIR/DEJAR DE SEGUIR -->
+            </div>
+        </div>
+    </div>
+</div>

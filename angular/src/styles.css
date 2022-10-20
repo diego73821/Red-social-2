@@ -1,27 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 /* Generales */
-
-.h1-strong{
-    font-size:35px;
-    font-weight: bold;
-    margin-left: 13px;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom:1px solid #eee;
-
-}
-
-/* Cabecera */
-.navigation{
-    padding: 0px !important;
-}
-
-.navigation .navbar {
-    border-radius: 0px !important ;
-    background: red !important;
-    border: none;
-}
-
-.navigation .navbar *{
-    color: white !important;
+.item-user .image_user{
+    width: 35px;
+    height: 35px;
+    border-radius: 100px;
+    overflow: hidden;
+    margin-top: 9px;
+    margin-right: 2px
 }

@@ -1,5 +1,5 @@
 <section class="container-fluid">
-    <div class="col-lg-5">
+    <div class="col-lg-6">
         <h1 class="h1-strong">{{title}}</h1>
 
         <div class="alert alert-success" *ngIf="status == 'success'">
@@ -10,7 +10,7 @@
             El Registro no ha podido completarse, quizas tu email o nickname ya esta en uso, intenta de nuevo
         </div>
 
-        <form action="" #registerForm="ngForm" (ngSubmit)= "onSubmit(registerForm)" class="col-lg-12">
+        <form action="" #registerForm="ngForm" (ngSubmit)= "onSubmit(registerForm)" class="col-lg-10">
             <p>
                 <label for="">Nombre</label>
                 <input type="text" name="name" #name="ngModel" [(ngModel)]="user.name" class="form-control" required>

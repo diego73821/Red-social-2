@@ -10,6 +10,7 @@ var jwt = require('../services/jwt')
 var mongoosePaginate = require('mongoose-pagination')
 var fs = require('fs')
 var path = require('path')
+const user = require('../models/user')
 
 
 //METODOS DE PRUEBA
@@ -128,15 +129,19 @@ function getUser(req, res) {
 }
 
 async function followThisUser(identity_user_id, user_id) {
-    var following = await Follow.findOne({ 'user': identity_user_id, 'followed': user_id }).exec((err, follow) => {
-        if (err) return handleError(err)
-        return follow
-    })
+    var following = await Follow.findOne({ "user": identity_user_id, "followed": user_id }).exec().then((follow) => {
+        return follow;
+    }).catch((err) => {
+        return handleError(err);
+    });
 
-    var followed = await Follow.findOne({ 'user': user_id, 'followed': identity_user_id }).exec((err, follow) => {
-        if (err) return handleError(err)
-        return follow
-    })
+    var followed = await Follow.findOne({ "user": user_id, "followed": identity_user_id }).exec().then((follow) => {
+        console.log(follow);
+        return follow;
+    }).catch((err) => {
+        return handleError(err);
+    });
+
 
     return {
         following: following,
@@ -169,37 +174,44 @@ function getUsers(req, res) {
 }
 
 async function followUserIds(user_id) {
-    var following = await Follow.find({ 'user': user_id }).select({ '_id': 0, '__v': 0, 'user': 0 }).exec((err, follows => {
-        return follows
-    }))
 
-    var followed = await Follow.find({ 'followed': user_id }).select({ '_id': 0, '__v': 0, 'followed': 0 }).exec((err, follows => {
-        return follows
-    }))
+    var following = await Follow.find({ user: user_id }).select({ _id: 0, __v: 0, user: 0 })
+        .exec()
+        .then((follows) => {
+            var follows_clean = [];
+            follows.forEach((follow) => {
+                follows_clean.push(follow.followed);
+            });
+            return follows_clean;
+        })
+        .catch((err) => {
+            return handleError(err);
+        });
 
-    //procesar following ids
-    var following_clean = []
-    following.forEach((follow) => {
-        following_clean.push(follow.followed)
-    })
-
-    //procesar followed ids
-    var followed_clean = []
-    followed.forEach((follow) => {
-        followed_clean.push(follow.user)
-    })
+    var followed = await Follow.find({ followed: user_id }).select({ _id: 0, __v: 0, followed: 0 })
+        .exec()
+        .then((follows) => {
+            var follows_clean = [];
+            follows.forEach((follow) => {
+                follows_clean.push(follow.user);
+            });
+            return follows_clean;
+        })
+        .catch((err) => {
+            return handleError(err);
+        });
 
     return {
-        following: following_clean,
-        followed: followed_clean
-    }
+        following: following,
+        followed: followed
+    };
 }
 
 function getCounters(req, res) {
     var userId = req.user.sub
 
     if (req.params.id) {
-        userId= req.params.id
+        userId = req.params.id
     }
     getCountFollow(userId).then((value) => {
         return res.status(200).send(value)
@@ -207,26 +219,22 @@ function getCounters(req, res) {
 }
 
 async function getCountFollow(user_id) {
-    var following = await Follow.count({ 'user': user_id }).exec((err, count) => {
-        if (err) return handleError(err)
-        return count
-    })
+    var following = await Follow.countDocuments({ user: user_id })
+        .exec()
+        .then((count) => {
+            console.log(count);
+            return count;
+        })
+        .catch((err) => { return handleError(err); });
 
-    var followed = await Follow.count({ 'followed': user_id }).exec((err, count) => {
-        if (err) return handleError(err)
-        return count
-    })
+    var followed = await Follow.countDocuments({ followed: user_id })
+        .exec()
+        .then((count) => {
+            return count;
+        })
+        .catch((err) => { return handleError(err); });
 
-    var publications = await Publication.count({'user': user_id}).exec((err,count)=>{
-        if (err) return handleError(err)
-        return count
-    })
-
-    return {
-        following: following,
-        followed: followed,
-        publications: publications
-    }
+    return { following: following, followed: followed }
 
 }
 
@@ -242,13 +250,27 @@ function updateUser(req, res) {
         return res.status(500).send({ message: 'No tienes permiso para actualizar los datos del usuario' })
     }
 
-    User.findByIdAndUpdate(userId, update, { new: true }, (err, userUpdated) => {
-        if (err) return res.status(500).send({ message: 'Error en la petición' })
+    User.find({
+        $or: [
+            { email: update.email.toLowerCase() },
+            { nick: update.nick.toLowerCase() }]
+    }).exec((err, users) => {
+        var user_isset = false
+        user.forEach((user) => {
+            if (user && users._id != userId) user_isset = true
+        })
 
-        if (!userUpdated) return res.status(404).send({ message: 'No se ha podido actualizar el usuario' })
+        if (user_isset) return res.status(404).send({ message: 'Los datos ya están en uso' })
 
-        return res.status(200).send({ user: userUpdated })
+        User.findByIdAndUpdate(userId, update, { new: true }, (err, userUpdated) => {
+            if (err) return res.status(500).send({ message: 'Error en la petición' })
+
+            if (!userUpdated) return res.status(404).send({ message: 'No se ha podido actualizar el usuario' })
+
+            return res.status(200).send({ user: userUpdated })
+        })
     })
+
 }
 
 //26 Subir archivos de imagen/ avatar de usuario 

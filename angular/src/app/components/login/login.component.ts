@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router, ActivatedRoute, Params} from '@angular/router'
+import { Router, ActivatedRoute, Params } from '@angular/router'
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 
@@ -13,43 +13,41 @@ export class LoginComponent implements OnInit {
   public title: string
   public user: User
   public status: string | undefined
-  public identity: any // + min 9
-  public token: any // + min 9
+  public identity: any 
+  public token: any
 
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
     private _userService: UserService
   ) {
-    
-    this.title = 'Identificate'
-    this.user = new User('','','','','','','ROLE_USER','')
-   }
 
-  ngOnInit(): void {
-    console.log('Componente de login cargado')
+    this.title = 'Identificate'
+    this.user = new User('', '', '', '', '', '', 'ROLE_USER', '')
   }
 
-  onSubmit(){
-//loguear al usuario y conseguir sus datos
+  ngOnInit(): void {
+    console.log('Componente de login cargado...')
+  }
+
+  onSubmit() {
+    //loguear al usuario y conseguir sus datos
     this._userService.signup(this.user).subscribe(
       response => {
-
-        this.identity = response.user // + min 9
+        this.identity = response.user
 
         console.log(this.identity)
-                
-        // + min 9
-        if (!this.identity || !this.identity._id) { 
+
+        if (!this.identity || !this.identity._id) {
           this.status = 'error'
-        }else{
-          this.status= 'success'
+        } else {
+          this.status = 'success'
 
           //persistir datos del usuario
           localStorage.setItem('identity', JSON.stringify(this.identity))
 
           //conseguir el token
-          this.getToken() // + min 9
+          this.getToken()
         }
       },
       error => {
@@ -62,7 +60,6 @@ export class LoginComponent implements OnInit {
     )
   }
 
-  // + min 9
   getToken() {
     this._userService.signup(this.user, true).subscribe(
       response => {
@@ -72,14 +69,14 @@ export class LoginComponent implements OnInit {
 
         if (this.token.length <= 0) {
           this.status = 'error'
-        }else{
-          this.status= 'success'
+        } else {
 
           //persistir token del usuario
           localStorage.setItem('token', this.token)
 
-          //conseguir los contadores o estadisticas del usuarios
-
+          //conseguir los contadores o estadisticas del usuario
+          // this.getCounters()
+          
         }
       },
       error => {
@@ -91,5 +88,18 @@ export class LoginComponent implements OnInit {
       }
     )
   }
-
+/*
+  getCounters() {
+    this._userService.getCounters().subscribe(
+      response => {
+        localStorage.setItem('stats', JSON.stringify(response))
+        this.status = 'success'
+        this._router.navigate(['/'])
+      },
+      error => {
+        console.log(<any>error)
+      }
+    )
+  }
+*/
 }

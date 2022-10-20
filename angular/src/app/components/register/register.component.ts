@@ -12,7 +12,7 @@ import { UserService } from 'src/app/services/user.service';
 export class RegisterComponent implements OnInit {
   public title: string;
   public user: User
-  public status: string
+  public status: string | undefined
   
   constructor(
     private _route: ActivatedRoute,
@@ -20,7 +20,6 @@ export class RegisterComponent implements OnInit {
     private _userService : UserService
 
   ) {
-    this.status = status
     this.title = 'Registrate'
     this.user = new User('',
     '',
@@ -33,10 +32,10 @@ export class RegisterComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    console.log('Componente de register cargado')
+    console.log('Componente de register cargado...')
   }
 
-  onSubmit(form : any){
+  onSubmit(form: any){
     this._userService.register(this.user).subscribe(
       response => {
         if(response.user && response.user._id){
